@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set meta_description = "Interactive Yerkes-style star classes: slide from M to O, compare stellar lifespans, blackbody spectra, and how mass ties to temperature." %}
+    {% set canonical_url = url_for('star_classes', _external=True) %}
+    {% set og_title = "Star Classification — Interactive spectral types" %}
+    {% include 'includes/site_meta.html' %}
+    <!-- Title -->
+    <title>{{ og_title }}</title>
+    <!-- Icon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/star-32x32.png') }}">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='star-classes.css') }}">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
+        integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC"
+        crossorigin="anonymous" defer></script>
+    <script src="{{ url_for('static', filename='star-classes.js') }}" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Star Classification</h1>
+    </header>
+    <svg class="svg-filters" aria-hidden="true" width="0" height="0" focusable="false">
+        <defs>
+            <filter id="bh-warp-filter" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+                <feTurbulence type="turbulence" baseFrequency="0.250" numOctaves="2" seed="4" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.0" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            </filter>
+        </defs>
+    </svg>
+    <nav class="navbar">
+        <div class="navbar-cloudLayer" aria-hidden="true">
+            <span class="navbarCloud navbarCloud--cirrus navbarCloud--cirrus-a"></span>
+            <span class="navbarCloud navbarCloud--cirrus navbarCloud--cirrus-b"></span>
+            <span class="navbarCloud navbarCloud--altocumulus"></span>
+            <span class="navbarCloud navbarCloud--cumulus navbarCloud--cumulus-mid"></span>
+            <span class="navbarCloud navbarCloud--cumulus navbarCloud--cumulus-low"></span>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('star_classes') }}" aria-current="page">Star Classes</a></li>
+            <li><a href="{{ url_for('time_dilation') }}">Time Dilation</a></li>
+        </ul>
+    </nav>
+    <main class="main">
+        <!--Visually appealing slider going from M class stars to O class stars-->
+        <div class="slider-container">
+            <input type="range" min="0" max="6" value="0" class="slider" id="starSlider">
+            <div class="slider-labels">
+                <span>M</span>
+                <span>K</span>
+                <span>G</span>
+                <span>F</span>
+                <span>A</span>
+                <span>B</span>
+                <span>O</span>
+            </div>
+        </div>
+        <!--Below, a star is visually animated growing bigger depending on the slider, with the camera panning out and in when required-->
+        <div class="starContainer">
+            <div class="star"></div>
+            <div class="stellar-remnant" aria-hidden="true">
+                <span class="bh-warp-ring"></span>
+            </div>
+        </div>
+        <button id="endLife">End Life</button>
+        <div class="chartSection">
+            <div class="chartModeToggle" role="tablist" aria-label="Chart view">
+                <button type="button" class="chartModeBtn is-selected" role="tab" aria-selected="true" data-chart-tab="lifespan">Lifespan</button>
+                <button type="button" class="chartModeBtn" role="tab" aria-selected="false" data-chart-tab="spectrum">Spectrum</button>
+            </div>
+            <div id="starStats" class="starStats">
+                <div class="chartPanel chartPanel--lifespan is-active" data-chart-panel="lifespan">
+                    <canvas id="myChart" aria-label="Stellar lifespan by spectral class"></canvas>
+                </div>
+                <div class="chartPanel chartPanel--spectrum" data-chart-panel="spectrum">
+                    <canvas id="myChart2" aria-label="Blackbody spectrum for selected class"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    <article class="starInfo"> <!--Change aspect ratio-->
+        <div class='sky shootingstar'></div>
+        <!--Maybe add "statistics" indicating probability of planetary system and life, etc.-->
+        <!-- Holographic projector: wraps stats panel + beams + base; same width as .starInfoMore -->
+        <div class="starInfoHologram">
+            <div class="starInfoMore"></div>
+            <div class="hologramBelow" aria-hidden="true">
+                <!-- Beam strip; SVG viewBox + line coords = pixel space of this box (synced in star-classes.js) -->
+                <div class="hologramBeamLayer">
+                    <svg class="hologramBeams" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1 1">
+                        <defs>
+                            <linearGradient id="hologram-beam-grad" x1="0%" y1="100%" x2="0%" y2="0%" gradientUnits="objectBoundingBox">
+                                <stop offset="0%" stop-color="rgba(37, 99, 235, 0.85)"/>
+                                <stop offset="55%" stop-color="rgba(186, 220, 255, 0.65)"/>
+                                <stop offset="100%" stop-color="rgba(255, 255, 255, 0.9)"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Faint frustum edges (drawn under the main beams in DOM order) -->
+                        <line class="hologramWire hologramWire--top" x1="0" y1="0" x2="1" y2="0"/>
+                        <line class="hologramWire hologramWire--bottom" x1="0" y1="1" x2="1" y2="1"/>
+                        <line class="hologramWire hologramWire--mid" x1="0" y1="0.5" x2="1" y2="0.5"/>
+                        <!-- Main beams: JS sets endpoints from projector top L/R → panel bottom corners -->
+                        <line class="hologramBeamLine hologramBeamLine--left" x1="0" y1="1" x2="0" y2="0"/>
+                        <line class="hologramBeamLine hologramBeamLine--right" x1="1" y1="1" x2="1" y2="0"/>
+                    </svg>
+                </div>
+                <div class="hologramProjector"></div>
+            </div>
+        </div>
+    </article>
+    <footer class="footer">
+        <p>&copy; 2026 Star Classification. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1581 @@
+html {
+    background-color: rgb(17, 17, 17);
+    color: white;
+}
+
+.svg-filters {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+.header {
+    display: flex;
+    flex-flow: row wrap;
+    flex: 1 1 0;
+    align-self: stretch;
+    width: 100%;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    background: black;
+    background-image: 
+        radial-gradient(2px 2px at var(--x1) var(--y1), #eee, transparent),
+        radial-gradient(2px 2px at var(--x2) var(--y2), #eee, transparent),
+        radial-gradient(2px 2px at var(--x3) var(--y3), #eee, transparent);
+    background-size: 200px 200px;
+}
+
+body {
+    margin: 0;
+    display: grid;
+    grid-template-areas: 
+    "header header header"
+    "nav main article"
+    "footer footer footer";
+    grid-template-columns: 10vw 1fr 35vw;
+    font-family: 'Inter', sans-serif;
+}
+header { grid-area: header; }
+nav { grid-area: nav; }
+main { grid-area: main; }
+footer { grid-area: footer; }
+.navbar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 10vw;
+    overflow: hidden;
+    background-image: linear-gradient(0deg, rgb(95, 119, 255), rgb(0, 0, 0));
+    z-index: 1;
+}
+
+/* Decorative clouds (right → left); links stay above */
+.navbar-cloudLayer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.navbarCloud {
+    position: absolute;
+    will-change: left;
+    animation: navbarCloudDrift linear infinite;
+}
+
+/* High altitude: wispy cirrus streaks */
+.navbarCloud--cirrus-a {
+    top: 7%;
+    width: 4.2rem;
+    height: 0.2rem;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.38) 35%,
+        rgba(255, 255, 255, 0.52) 50%,
+        rgba(255, 255, 255, 0.35) 65%,
+        transparent 100%
+    );
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
+    opacity: 0.85;
+    animation-duration: 32s;
+    animation-delay: -6s;
+}
+
+.navbarCloud--cirrus-b {
+    top: 16%;
+    width: 3rem;
+    height: 0.12rem;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.28) 40%,
+        rgba(255, 255, 255, 0.4) 55%,
+        transparent
+    );
+    transform: rotate(-4deg);
+    opacity: 0.75;
+    animation-duration: 26s;
+    animation-delay: -19s;
+}
+
+/* Mid-high: patchy altocumulus */
+.navbarCloud--altocumulus {
+    top: 30%;
+    width: 1.6rem;
+    height: 0.55rem;
+    background: rgba(255, 255, 255, 0.36);
+    border-radius: 50%;
+    box-shadow:
+        1.15rem -0.08rem 0 -0.12rem rgba(255, 255, 255, 0.32),
+        -0.85rem 0.12rem 0 -0.18rem rgba(255, 255, 255, 0.28),
+        0.35rem -0.38rem 0 -0.22rem rgba(255, 255, 255, 0.26);
+    filter: blur(0.35px);
+    opacity: 0.88;
+    animation-duration: 54s;
+    animation-delay: -11s;
+}
+
+/* Mid-level cumulus puff */
+.navbarCloud--cumulus-mid {
+    top: 46%;
+    width: 2rem;
+    height: 0.85rem;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    box-shadow:
+        1.45rem 0.05rem 0 -0.15rem rgba(255, 255, 255, 0.34),
+        -1.1rem 0.18rem 0 -0.12rem rgba(255, 255, 255, 0.3),
+        0.5rem -0.55rem 0 -0.2rem rgba(255, 255, 255, 0.33),
+        -0.4rem -0.35rem 0 -0.25rem rgba(255, 255, 255, 0.22);
+    filter: blur(0.5px);
+    opacity: 0.92;
+    animation-duration: 72s;
+    animation-delay: -38s;
+}
+
+/* Lower, slower “fat” cumulus near bottom of strip */
+.navbarCloud--cumulus-low {
+    bottom: 14%;
+    width: 2.35rem;
+    height: 1rem;
+    background: rgba(255, 255, 255, 0.38);
+    border-radius: 50%;
+    box-shadow:
+        1.65rem 0.1rem 0 -0.1rem rgba(255, 255, 255, 0.32),
+        -1.25rem 0.2rem 0 -0.08rem rgba(255, 255, 255, 0.28),
+        0.65rem -0.65rem 0 -0.15rem rgba(255, 255, 255, 0.3),
+        -0.55rem -0.45rem 0 -0.2rem rgba(255, 255, 255, 0.24);
+    filter: blur(0.65px);
+    opacity: 0.9;
+    animation-duration: 88s;
+    animation-delay: -52s;
+}
+
+@keyframes navbarCloudDrift {
+    from {
+        left: 108%;
+    }
+    to {
+        left: -45%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbarCloud {
+        animation: none;
+        left: 50%;
+        opacity: 0.35;
+        transform: translateX(-50%);
+    }
+
+    .navbarCloud--cirrus-b {
+        transform: translateX(-50%) rotate(-4deg);
+    }
+}
+.chartSection {
+    width: 80%;
+    max-width: 56rem;
+    margin-top: 0;
+    margin-bottom: clamp(2.25rem, 4.5vh, 3.5rem);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Tab buttons: hidden on wide layout (both charts visible). */
+.chartModeToggle {
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    padding: 0 0.15rem;
+    box-sizing: border-box;
+}
+
+.chartModeBtn {
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(9, 20, 40, 0.35);
+    background: rgba(255, 255, 255, 0.55);
+    color: #0b1324;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chartModeBtn:hover {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(9, 20, 40, 0.45);
+}
+
+.chartModeBtn.is-selected {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(59, 130, 246, 0.25));
+    border-color: rgba(37, 99, 235, 0.55);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+#starStats.starStats {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-areas: 'chart1 chart2';
+    grid-template-columns: 1fr 1fr;
+    gap: 1.35rem;
+    align-items: stretch;
+    justify-content: stretch;
+    background: linear-gradient(160deg, rgba(250, 252, 255, 0.95), rgba(236, 242, 250, 0.95));
+    border: 1px solid rgba(9, 20, 40, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(17, 24, 39, 0.14);
+    padding: 1.35rem 1.4rem 1.45rem;
+    box-sizing: border-box;
+}
+
+.chartPanel {
+    position: relative;
+    min-width: 0;
+    min-height: 220px;
+    padding: 0.5rem 0.35rem;
+    box-sizing: border-box;
+}
+
+/* Match previous layout: spectrum (line) left, lifespan (bars) right */
+.chartPanel--spectrum {
+    grid-area: chart1;
+}
+
+.chartPanel--lifespan {
+    grid-area: chart2;
+}
+
+.chartSection canvas {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    border-radius: 8px;
+}
+.navbar ul {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.navbar ul li {
+    text-align: center;
+    border: 1px solid #555555;
+}
+.navbar ul li a {
+    display: block;
+    box-sizing: border-box;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    background-color: rgba(85, 85, 85, 0.418);
+    transition: background-color 0.3s ease;
+}
+.navbar ul li a:hover {
+    background-color: rgb(29, 0, 29);
+}
+.navbar ul li a:active {
+    background-color: rgb(39, 0, 39);
+}
+.main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    margin-bottom: 30vh;
+    overflow: hidden;
+    z-index: 0;
+    /* Creates a local stacking context so pseudo-elements stay behind main content only. */
+    isolation: isolate;
+    /* Pointer-driven shader inputs, updated from JS. */
+    --holo-x: 50%;
+    --holo-y: 50%;
+    --holo-depth: 0;
+    background:
+        radial-gradient(circle at 18% 24%, rgba(131, 131, 131, 0.45) 0, rgba(211, 211, 211, 0.336) 40%),
+        radial-gradient(circle at 75% 76%, rgba(185, 185, 185, 0.42) 0, rgba(95, 95, 95, 0.747) 40%),
+        linear-gradient(165deg, #5c5c5c 0%, #4b4b4b 52%, #202020 100%);
+}
+
+.main::before,
+.main::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.main::before {
+    /* Ambient hologram layer: animated grain + color interference. */
+    background:
+        repeating-radial-gradient(circle at 35% 42%, rgba(255, 255, 255, 0.281) 0 1px, rgba(10, 10, 10, 0.03) 1px 3px, rgba(255, 0, 0, 0.11) 1px 1px,rgba(0, 255, 242, 0.11) 3px 2px),
+        linear-gradient(115deg, rgba(255, 0, 255, 0.116), rgba(18, 148, 255, 0.185) 40%, rgba(0, 167, 111, 0.233) 70%, rgba(194, 0, 0, 0.103));
+    mix-blend-mode: screen;
+    opacity: 0.65;
+    transform: scale(1.06);
+    animation: holo-static-shift 10s linear infinite, holo-tint-wave 7s ease-in-out infinite alternate;
+}
+
+.main::after {
+    /* Interactive CRT press layer: chromatic split + dent + scanlines near pointer. */
+    background:
+        radial-gradient(
+            circle 165px at calc(var(--holo-x) - 2px) calc(var(--holo-y) - 1px),
+            rgba(255, 80, 80, calc(0.06 * var(--holo-depth))) 0%,
+            rgba(255, 73, 73, 0) 62%
+        ),
+        radial-gradient(
+            circle 165px at calc(var(--holo-x) + 2px) calc(var(--holo-y) + 1px),
+            rgba(90, 220, 255, calc(0.06 * var(--holo-depth))) 0%,
+            rgba(90, 219, 255, 0) 62%
+        ),
+        radial-gradient(
+            circle 180px at var(--holo-x) var(--holo-y),
+            rgba(0, 0, 0, calc(0.24 * var(--holo-depth))) 0%,
+            rgba(0, 0, 0, calc(0.13 * var(--holo-depth))) 24%,
+            rgba(150, 220, 255, calc(0.11 * var(--holo-depth))) 52%,
+            rgba(255, 255, 255, 0) 72%
+        ),
+        radial-gradient(
+            circle 215px at calc(var(--holo-x) + 5px) calc(var(--holo-y) + 6px),
+            rgba(255, 255, 255, calc(0.14 * var(--holo-depth))) 0%,
+            rgba(255, 255, 255, calc(0.07 * var(--holo-depth))) 16%,
+            rgba(255, 255, 255, 0) 62%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, calc(0.016 * var(--holo-depth))) 0 1px,
+            rgba(0, 0, 0, calc(0.018 * var(--holo-depth))) 1px 2px
+        );
+    /* Radial mask keeps distortion local so the whole panel is not tinted. */
+    -webkit-mask-image: radial-gradient(
+        circle 260px at var(--holo-x) var(--holo-y),
+        rgba(0, 0, 0, calc(1 * var(--holo-depth))) 0%,
+        rgba(0, 0, 0, calc(0.9 * var(--holo-depth))) 48%,
+        rgba(0, 0, 0, calc(0.3 * var(--holo-depth))) 72%,
+        transparent 100%
+    );
+    mask-image: radial-gradient(
+        circle 260px at var(--holo-x) var(--holo-y),
+        rgba(0, 0, 0, calc(1 * var(--holo-depth))) 0%,
+        rgba(0, 0, 0, calc(0.9 * var(--holo-depth))) 48%,
+        rgba(0, 0, 0, calc(0.3 * var(--holo-depth))) 72%,
+        transparent 100%
+    );
+    /* Small filter stack for glass-like response without heavy blur cost. */
+    filter: saturate(1.12) contrast(1.04);
+    backdrop-filter: blur(calc(0.35px * var(--holo-depth))) contrast(1.02);
+    transition: opacity 160ms ease;
+}
+
+.main > * {
+    /* Keep controls/content above the hologram pseudo-elements. */
+    position: relative; 
+    z-index: 1;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    gap: 10px;    /* Space between slider and labels */
+    margin-top: 4vh;
+}
+.slider {
+    width: 100%;
+    margin: 0;
+    opacity: 0.7;
+    cursor: pointer;
+    accent-color: black;
+}
+.slider:hover {
+    opacity: 1;
+}
+.slider-labels {
+    display: flex;
+    width: 25vw;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #1a1a1a;
+    box-sizing: border-box;
+}
+.slider::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, #ff0000 0%, yellow 30%, #ffffff 50%, #4facfe 100%);
+  border-radius: 10px;
+  border: 1px solid #111;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: radial-gradient(circle, #000 35%, #913d01 45%, #000 75%);
+    opacity: 1;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    overflow: visible;
+    box-shadow: 0 0 10px 5px pink, 0 0 30px 10px purple, 0 0 40px 20px blue;
+    cursor: pointer;
+
+}
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: calc(1rem + clamp(1.5rem, 3.5vh, 2.75rem)) 0.75rem;
+    box-sizing: border-box;
+    background-color: rgb(29, 0, 29);
+    text-align: center;
+}
+article.starInfo {
+    grid-area: article;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* Important for animations to stay inside */
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem;
+    background-color: #191924; /* Use your desired color */
+    color: white;
+}
+.detailedDesc {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+}
+canvas {
+    height: 100% !important;
+    width: 100% !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(236, 242, 252, 0.92)) !important;
+    border-radius: 8px;
+}
+
+.chartSection canvas {
+    border: 1px solid rgba(11, 19, 36, 0.22);
+}
+
+/* ---- Holographic projector (.starInfoMore + beams + base) ---- */
+
+/* Flex column: panel on top, projector stack below; width matches former .starInfoMore rule */
+.starInfoHologram {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(95%, 40rem);
+    margin-top: 1rem;
+}
+
+/* Glass stats card; width 100% of .starInfoHologram (margin moved to wrapper) */
+.starInfoMore {
+    z-index: 1;
+    margin-top: 0;
+    width: calc(95% - 1rem);
+    border: 1px solid rgba(20, 20, 20, 0.24);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+    background-color: rgba(255, 255, 255, 0.2); /* Add glassmorphism effect */
+    backdrop-filter: blur(3px); /* Add blur effect to the background */
+    color: #ffffff;
+    padding: 0.95rem 1rem;
+}
+
+/* No stats yet → hide beams/projector (renderStarInfoMore clears innerHTML when no data) */
+.starInfoMore:empty + .hologramBelow {
+    display: none;
+}
+
+/* Centers the oval projector under the full-width beam SVG */
+.hologramBelow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* Vertical gap between panel bottom and projector; SVG fills this rectangle */
+.hologramBeamLayer {
+    position: relative;
+    width: 100%;
+    height: clamp(2rem, 5.5vw, 3.5rem);
+    flex-shrink: 0;
+}
+
+/*
+ * Fills the beam strip; updateHologramBeamGeometry() sets viewBox to 0 0 layerWidth layerHeight
+ * so line x/y match measured panel bottom corners and projector top edge in this box’s pixels.
+ */
+.hologramBeams {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+/* Closing edges of the projection frustum (3D wireframe cue) */
+.hologramWire {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.11);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+}
+
+/* Lines use #hologram-beam-grad; non-scaling stroke keeps hairlines when SVG stretches */
+.hologramBeamLine {
+    fill: none;
+    stroke: url(#hologram-beam-grad);
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.55));
+    animation: hologramBeamPulse 3.2s ease-in-out infinite;
+}
+
+.hologramBeamLine--right {
+    animation-delay: 0.15s;
+}
+
+@keyframes hologramBeamPulse {
+    0%, 100% {
+        opacity: 0.72;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Blue core → white rim to echo the panel; glow + inset read as “light source” */
+.hologramProjector {
+    width: min(11rem, 55%);
+    height: clamp(2.35rem, 5vw, 3.15rem);
+    margin-top: 0.15rem;
+    border-radius: 50% / 42%;
+    background: radial-gradient(
+        ellipse 85% 75% at 50% 48%,
+        rgba(37, 99, 235, 0.92) 0%,
+        rgba(59, 130, 246, 0.72) 22%,
+        rgba(191, 219, 254, 0.78) 48%,
+        rgba(255, 255, 255, 0.88) 72%,
+        rgba(255, 255, 255, 0.96) 100%
+    );
+    box-shadow:
+        0 0 28px rgba(59, 130, 246, 0.38),
+        0 0 12px rgba(255, 255, 255, 0.22),
+        inset 0 0 22px rgba(255, 255, 255, 0.28),
+        inset 0 -6px 18px rgba(37, 99, 235, 0.35);
+    animation: hologramProjectorGlow 4.5s ease-in-out infinite;
+}
+
+@keyframes hologramProjectorGlow {
+    0%, 100% {
+        filter: brightness(1) saturate(1.05);
+        box-shadow:
+            0 0 28px rgba(59, 130, 246, 0.38),
+            0 0 12px rgba(255, 255, 255, 0.22),
+            inset 0 0 22px rgba(255, 255, 255, 0.28),
+            inset 0 -6px 18px rgba(37, 99, 235, 0.35);
+    }
+    50% {
+        filter: brightness(1.08) saturate(1.12);
+        box-shadow:
+            0 0 36px rgba(59, 130, 246, 0.5),
+            0 0 16px rgba(255, 255, 255, 0.3),
+            inset 0 0 26px rgba(255, 255, 255, 0.34),
+            inset 0 -6px 20px rgba(37, 99, 235, 0.42);
+    }
+}
+
+.infoLine {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(23, 23, 23, 0.18);
+    padding: 0.45rem 0.2rem;
+}
+
+.infoLabel {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.infoValue {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.infoValue--temp {
+    font-size: 1.08rem;
+    font-weight: 800;
+    color: #b91c1c;
+}
+
+.habitabilityBox {
+    margin-top: 0.65rem;
+    background: linear-gradient(180deg, rgba(145, 145, 0, 0.97), rgba(168, 118, 0, 0.94)); /* Change background color to match star class */
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.16);
+}
+
+.habitabilityBox p {
+    margin: 0.7rem 0 0.25rem;
+    text-align: left;
+    line-height: 1.4;
+    color: inherit;
+}
+
+.tierBadge {
+    display: inline-block;
+    min-width: 2.15rem;
+    text-align: center;
+    font-weight: 800;
+    border: 1px solid;
+    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+    background-color: rgba(255, 255, 255, 0.66);
+}
+.starContainer {
+    position: relative;
+    margin-top: 3vh;
+    padding: 30vh 20vw;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing:border-box;
+    background: url('img/starfield.jpg'); /* Make into animated starfield later on */
+}
+
+/* Star */ 
+.star {
+    box-sizing: content-box;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+/* Supernova remnants: appear at 10% of `explode` (0.9s), smaller than the star at that keyframe (~scale 0.6). */
+.stellar-remnant {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.stellar-remnant--neutron {
+    z-index: 0;
+    width: 26px;
+    height: 26px;
+    background: radial-gradient(circle at 32% 30%, #ffffff 0%, #e8f4ff 25%, #9fd4ff 55%, #5ba8e8 100%);
+    box-shadow:
+        0 0 10px 2px rgba(220, 240, 255, 0.95),
+        0 0 22px 5px rgba(120, 190, 255, 0.65),
+        0 0 36px 10px rgba(80, 150, 255, 0.35);
+}
+
+.stellar-remnant--blackhole {
+    z-index: 0;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 50% 48%, #151520 0%, #050508 42%, #000 55%, #000 100%);
+    box-shadow:
+        0 0 0 1.5px rgba(255, 210, 140, 0.55),
+        0 0 14px 3px rgba(255, 160, 90, 0.45),
+        0 0 28px 8px rgba(180, 100, 255, 0.3);
+}
+
+/* Lensing ring: backdrop twist fades from BH limb outward (~10px); strength from `warp()` in JS */
+.bh-warp-ring {
+    z-index: 2;
+    display: none;
+    position: absolute;
+    inset: calc(-1px * var(--bh-warp-radius, 10));
+    border-radius: 50%;
+    pointer-events: none;
+    /* Give the filter pixels to warp: a copy of the same starfield image. */
+    background-image: url('img/starfield.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.95;
+    /* Tiny fill so backdrop-filter has a surface (otherwise it may look like "nothing"). */
+    background-color: rgba(0, 0, 0, 0.001);
+    -webkit-mask-image: radial-gradient(
+        circle at 50% 50%,
+        transparent 0,
+        transparent 34%,
+        rgba(0, 0, 0, 0.2) 48%,
+        rgba(0, 0, 0, 0.75) 62%,
+        black 100%
+    );
+    mask-image: radial-gradient(
+        circle at 50% 50%,
+        transparent 0,
+        transparent 34%,
+        rgba(0, 0, 0, 0.2) 48%,
+        rgba(0, 0, 0, 0.75) 62%,
+        black 100%
+    );
+    -webkit-backdrop-filter: var(--bh-warp-backdrop, blur(0.4px));
+    backdrop-filter: var(--bh-warp-backdrop, blur(0.4px));
+    filter: var(--bh-warp-filter, none);
+}
+
+.stellar-remnant--blackhole .bh-warp-ring {
+    display: block;
+}
+
+.stellar-remnant--active.stellar-remnant--neutron {
+    animation: remnant-neutron 0.9s cubic-bezier(0.1, 0.6, 0.3, 1) forwards;
+}
+
+.stellar-remnant--active.stellar-remnant--blackhole {
+    animation: remnant-blackhole 0.9s cubic-bezier(0.1, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes remnant-neutron {
+    0%,
+    9.99% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes remnant-blackhole {
+    0%,
+    9.99% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+.M {
+    height: 75px;
+    width: 75px;
+    background:red;
+    box-shadow: 0 0 50px rgba(255,0,0, 0.8);
+}
+.K {
+    height: 105px;
+    width: 105px;
+    background:rgb(255, 115, 0);
+    box-shadow: 0 0 50px rgba(255, 115, 0, 0.8);
+}
+.G {
+    height: 145px;
+    width: 145px;
+    background:rgb(255, 230, 0);
+    box-shadow: 0 0 50px rgba(255, 230, 0, 0.8);
+}
+.F {
+    height: 190px;
+    width: 190px;
+    background:rgb(234, 255, 220);
+    box-shadow: 0 0 50px rgba(255, 250, 205, 0.8);
+}
+.A {
+    height: 245px;
+    width: 245px;
+    background:rgb(220, 251, 255);
+    box-shadow: 0 0 50px rgba(205, 253, 255, 0.8);
+}
+
+.B {
+    height: 310px;
+    width: 310px;
+    background:rgb(95, 236, 255);
+    box-shadow: 0 0 50px rgba(104, 250, 255, 0.8);
+}
+
+.O {
+    height: 420px;
+    width: 420px;
+    background:rgb(40, 140, 255);
+    box-shadow: 0 0 50px rgba(75, 189, 255, 0.8);
+}
+
+#endLife {
+    margin-top: 1rem;
+    margin-bottom: clamp(1.35rem, 2.8vh, 2rem);
+    padding: 15px 30px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px; /* Rounded pill shape */
+    cursor: pointer; /* Hand cursor on hover */
+    position: relative;
+    transition: all 0.3s ease;
+  
+  /* Space Theme Colors */
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    box-shadow: 0 0 15px rgba(111, 66, 193, 0.4);
+}
+
+/* Hover Effect: Glowing Expansion */
+#endLife:hover {
+    transform: translateY(-1px); /* Slight lift */
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.8), 
+              0 0 50px rgba(0, 212, 255, 0.3);
+}
+
+/* Star Sparkle Effect using Pseudo-elements */
+#endLife::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-size: 20px 20px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Click/Active State */
+#endLife:active {
+  transform: scale(0.95);
+}
+
+
+/* Star + Screen Death Anims */
+.explosion {
+    animation: explode 0.9s cubic-bezier(0.1, 0.6, 0.3, 1) forwards;
+    pointer-events: none; /* Keeps your buttons clickable! */
+}
+/* K–A: per–spectral-class nebula + early white dwarf (core settles by ~86%, not 100%) */
+.planetary-nebula {
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.planetary-nebula--K {
+    animation-name: planetary-nebula-K;
+}
+
+.planetary-nebula--G {
+    animation-name: planetary-nebula-G;
+}
+
+.planetary-nebula--F {
+    animation-name: planetary-nebula-F;
+}
+
+.planetary-nebula--A {
+    animation-name: planetary-nebula-A;
+}
+.shake {
+    animation: shake 0.9s;
+}
+.slow-fade {
+    animation: slow-fade 6s ease-in-out forwards;
+}
+/* Background for Title (starfield) */
+
+.sky.shootingstar {
+  position: absolute;
+  pointer-events: none; /* Let clicks pass through to content */
+  top: 50%;
+  left: 0;
+  z-index: 0;
+  opacity: 0.5; /* Increased for visibility */
+}
+
+/* The actual shooting star line */
+.sky.shootingstar::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(-45deg, #ffffff, #5f91ff, transparent);
+  filter: drop-shadow(0 0 6px #ffffff);
+  animation: shootingtail 1.2s ease-in-out infinite;
+}
+.sky.shootingstar::after {
+    content: '';
+    position: absolute;
+    top: 3rem; /* Offset it slightly from the first star */
+    left: 35vw;
+    height: 2px;
+    background: linear-gradient(30deg, #ffffff, #5f91ff, transparent);
+    filter: drop-shadow(0 0 6px #ffffff);
+    animation: shootingtail2 1.1s linear infinite; /* Different speed */
+    animation-delay: 0.925s; /* Different start time */
+}
+/* Simulate star explosion */
+
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0px 0px orange;
+        filter: brightness(3) blur(0px); /* Extra bright at the start */
+    }
+    10% {
+        transform: scale(0.6); 
+        filter: brightness(5); 
+        box-shadow: 0 0 100px 100px orange;
+    }
+    15% {
+        /* The "Flash" - gets big almost instantly */
+        transform: scale(3.5); 
+        opacity: 1;
+    }
+    100% {
+        /* The "Dissipate" - slowly drifts to final size */
+        transform: scale(10); 
+        opacity: 0;
+        filter: brightness(1) blur(5px); /* Blurring out makes it look smoky/smooth */
+    }
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(8px); }
+    50% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}
+/* Cooler K: dark molecular / faint reflection — muted, dusty halos */
+@keyframes planetary-nebula-K {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        border: 0 solid transparent;
+        background: rgb(255, 115, 0);
+        box-shadow: 0 0 0 0 rgba(40, 22, 18, 0);
+    }
+    45% {
+        transform: scale(3.6);
+        opacity: 0.72;
+        background: #8b2d1a;
+        border: 6px solid rgba(55, 32, 28, 0.85);
+        box-shadow:
+            0 0 50px 28px rgba(45, 28, 22, 0.5),
+            0 0 110px 65px rgba(28, 20, 35, 0.32),
+            0 0 160px 100px rgba(18, 14, 22, 0.2);
+    }
+    58% {
+        transform: scale(4.1);
+        opacity: 0.55;
+        background: #5c2418;
+        border: 8px solid rgba(71, 43, 36, 0.75);
+        box-shadow:
+            0 0 55px 32px rgba(38, 24, 20, 0.48),
+            0 0 100px 60px rgba(22, 16, 26, 0.28);
+    }
+    72% {
+        opacity: 0.85;
+        background: #53281e;
+        border: 4px solid rgba(107, 57, 43, 0.45);
+        box-shadow:
+            0 0 40px 22px rgba(75, 49, 40, 0.35),
+            0 0 90px 55px rgba(71, 51, 46, 0.22);
+    }
+    86% {
+        /* White dwarf: warm, CO-rich cooling — visible before end of timeline */
+        transform: scale(0.28);
+        opacity: 1;
+        background: radial-gradient(circle at 40% 35%, #fffefb 0%, #efe8df 45%, #d8cfc4 100%);
+        border: 2px solid rgba(120, 80, 60, 0.35);
+        box-shadow:
+            0 0 18px 8px rgba(85, 55, 45, 0.28),
+            0 0 40px 18px rgba(40, 28, 32, 0.18);
+    }
+    100% {
+        transform: scale(0.22);
+        opacity: 1;
+        background: radial-gradient(circle at 40% 35%, #fffefb 0%, #efe8df 50%, #e0d8d0 100%);
+        border: 2px solid transparent;
+        box-shadow:
+            0 0 12px 4px rgba(70, 48, 40, 0.2),
+            0 0 600px 1400px transparent;
+    }
+}
+
+/* G: balanced yellow–white reflection */
+@keyframes planetary-nebula-G {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        border: 0 solid transparent;
+        background: rgb(255, 230, 0);
+        box-shadow: 0 0 0 0 rgba(200, 180, 60, 0);
+    }
+    45% {
+        transform: scale(3.7);
+        opacity: 0.68;
+        background: #c94a20;
+        border: 7px solid rgba(255, 200, 120, 0.5);
+        box-shadow:
+            0 0 70px 38px rgba(255, 200, 80, 0.42),
+            0 0 130px 75px rgba(255, 160, 60, 0.28),
+            0 0 180px 110px rgba(200, 120, 40, 0.18);
+    }
+    58% {
+        transform: scale(4.2);
+        opacity: 0.52;
+        background: #a83818;
+        border: 8px solid rgba(255, 220, 140, 0.45);
+        box-shadow:
+            0 0 85px 45px rgba(255, 210, 100, 0.38),
+            0 0 150px 85px rgba(240, 140, 60, 0.25);
+    }
+    72% {
+        opacity: 0.88;
+        background: #6a2810;
+        border: 5px solid rgba(255, 200, 100, 0.35);
+        box-shadow:
+            0 0 50px 28px rgba(255, 190, 90, 0.3),
+            0 0 100px 60px rgba(180, 100, 50, 0.2);
+    }
+    86% {
+        transform: scale(0.22);
+        opacity: 1;
+        background: radial-gradient(circle at 38% 32%, #ffffff 0%, #f4f6fa 50%, #dce2ec 100%);
+        border: 2px solid rgba(200, 210, 230, 0.5);
+        box-shadow:
+            0 0 22px 10px rgba(255, 240, 200, 0.45),
+            0 0 55px 25px rgba(200, 210, 255, 0.28);
+    }
+    100% {
+        transform: scale(0.2);
+        opacity: 1;
+        background: radial-gradient(circle at 38% 32%, #ffffff 0%, #f4f6fa 55%, #e8edf5 100%);
+        border: 2px solid transparent;
+        box-shadow:
+            0 0 16px 6px rgba(220, 230, 255, 0.35),
+            0 0 600px 1400px transparent;
+    }
+}
+
+/* F: brighter shell, whiter inner nebula */
+@keyframes planetary-nebula-F {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        border: 0 solid transparent;
+        background: rgb(234, 255, 220);
+        box-shadow: 0 0 0 0 rgba(180, 220, 200, 0);
+    }
+    45% {
+        transform: scale(3.85);
+        opacity: 0.65;
+        background: #e04030;
+        border: 7px solid rgba(255, 230, 200, 0.55);
+        box-shadow:
+            0 0 75px 42px rgba(255, 220, 180, 0.48),
+            0 0 140px 78px rgba(255, 180, 140, 0.32),
+            0 0 190px 115px rgba(200, 160, 255, 0.15);
+    }
+    58% {
+        transform: scale(4.25);
+        opacity: 0.5;
+        background: #c83828;
+        border: 8px solid rgba(255, 240, 220, 0.5);
+        box-shadow:
+            0 0 95px 50px rgba(255, 210, 190, 0.42),
+            0 0 160px 90px rgba(240, 160, 200, 0.28),
+            0 0 120px 70px rgba(160, 200, 255, 0.22);
+    }
+    72% {
+        opacity: 0.9;
+        background: #7a2818;
+        border: 5px solid rgba(255, 200, 180, 0.4);
+        box-shadow:
+            0 0 55px 30px rgba(255, 200, 220, 0.35),
+            0 0 105px 62px rgba(200, 180, 255, 0.22);
+    }
+    86% {
+        transform: scale(0.2);
+        opacity: 1;
+        background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f8faff 48%, #e4eaf5 100%);
+        border: 2px solid rgba(220, 230, 255, 0.55);
+        box-shadow:
+            0 0 26px 12px rgba(255, 245, 255, 0.55),
+            0 0 60px 28px rgba(200, 220, 255, 0.38);
+    }
+    100% {
+        transform: scale(0.19);
+        opacity: 1;
+        background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f8faff 52%, #eef2fa 100%);
+        border: 2px solid transparent;
+        box-shadow:
+            0 0 18px 8px rgba(230, 240, 255, 0.4),
+            0 0 600px 1400px transparent;
+    }
+}
+
+/* Hot A: bright emission / reflection — strong H II–like cyan & magenta rims */
+@keyframes planetary-nebula-A {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        border: 0 solid transparent;
+        background: rgb(220, 251, 255);
+        box-shadow: 0 0 0 0 rgba(100, 200, 255, 0);
+    }
+    45% {
+        transform: scale(4);
+        opacity: 0.62;
+        background: #e82820;
+        border: 8px solid rgba(180, 255, 255, 0.55);
+        box-shadow:
+            0 0 80px 45px rgba(0, 220, 255, 0.52),
+            0 0 150px 82px rgba(255, 60, 200, 0.38),
+            0 0 200px 120px rgba(120, 180, 255, 0.35);
+    }
+    58% {
+        transform: scale(4.35);
+        opacity: 0.48;
+        background: #d02018;
+        border: 9px solid rgba(200, 255, 255, 0.5);
+        box-shadow:
+            0 0 100px 55px rgba(40, 240, 255, 0.48),
+            0 0 170px 95px rgba(255, 80, 220, 0.35),
+            0 0 130px 75px rgba(180, 150, 255, 0.32);
+    }
+    72% {
+        transform: scale(2.1);
+        opacity: 0.92;
+        background: #6a2018;
+        border: 6px solid rgba(160, 240, 255, 0.4);
+        box-shadow:
+            0 0 60px 32px rgba(80, 220, 255, 0.38),
+            0 0 110px 65px rgba(255, 120, 200, 0.28);
+    }
+    86% {
+        transform: scale(0.18);
+        opacity: 1;
+        background: radial-gradient(circle at 32% 28%, #ffffff 0%, #e8f2ff 45%, #c8daf5 100%);
+        border: 2px solid rgba(180, 210, 255, 0.65);
+        box-shadow:
+            0 0 28px 14px rgba(200, 230, 255, 0.65),
+            0 0 65px 30px rgba(120, 200, 255, 0.42),
+            0 0 40px 18px rgba(255, 100, 200, 0.22);
+    }
+    100% {
+        transform: scale(0.17);
+        opacity: 1;
+        background: radial-gradient(circle at 32% 28%, #ffffff 0%, #e4eeff 50%, #dce8f8 100%);
+        border: 2px solid transparent;
+        box-shadow:
+            0 0 20px 10px rgba(210, 230, 255, 0.45),
+            0 0 600px 1400px transparent;
+    }
+}
+
+@keyframes slow-fade {
+  0% { transform: scale(1); filter: saturate(1); }
+  50% {background: rgb(71, 255, 255); transform: scale(0.5);}
+  80% {background: #fff; filter: saturate(0.3); opacity: 0.9;}
+  100% { transform: scale(0.3); filter: saturate(0); opacity: 0.8; }
+}
+
+@keyframes shootingtail {
+    0% {
+        transform: translateY(0) rotateX(-45deg);
+        width: 0;
+    }
+    30% {
+        width: 10rem;
+    }
+    100% {
+        width: 0;
+        transform: translateY(25rem) translateX(35rem) rotateZ(45deg);
+    }
+}
+@keyframes shootingtail2 {
+    0% {
+        transform: translateY(0) rotateX(45deg);
+        width: 0;
+    }
+    30% {
+        width: 10rem;
+    }
+    100% {
+        width: 0;
+        transform: translateY(25rem) translateX(-35rem) rotateZ(-45deg);
+    }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.005); opacity: 0.8; }
+}
+
+@keyframes holo-static-shift {
+    0% { transform: translate3d(0, 0, 0) scale(1.06); }
+    25% { transform: translate3d(-1.5%, 1%, 0) scale(1.08); }
+    50% { transform: translate3d(1%, -1.5%, 0) scale(1.07); }
+    75% { transform: translate3d(-1%, -0.5%, 0) scale(1.06); }
+    100% { transform: translate3d(0, 0, 0) scale(1.06); }
+}
+
+@keyframes holo-tint-wave {
+    0% { opacity: 0.52; filter: hue-rotate(0deg); }
+    100% { opacity: 0.74; filter: hue-rotate(25deg); }
+}
+/* ---- Mobile / narrow viewports ---- */
+
+@media (max-width: 768px) {
+    body {
+        grid-template-areas:
+            'header'
+            'nav'
+            'main'
+            'article'
+            'footer';
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto auto;
+    }
+
+    .navbar {
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        min-height: 3.1rem;
+        justify-content: center;
+        padding: 0.35rem 0;
+    }
+
+    .navbar-cloudLayer {
+        opacity: 0.55;
+    }
+
+    .navbarCloud {
+        transform: scale(0.72);
+        transform-origin: left center;
+    }
+
+    .navbarCloud--cirrus-b {
+        transform: scale(0.72) rotate(-4deg);
+    }
+
+    .navbar ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 0.35rem 0.5rem;
+        width: 100%;
+        height: auto;
+        padding: 0.25rem 0.5rem;
+        box-sizing: border-box;
+    }
+
+    .navbar ul li {
+        margin: 0;
+    }
+
+    .navbar ul li a {
+        font-size: clamp(0.85rem, 2.8vw, 1.1rem);
+        padding: 0.45rem 0.75rem;
+    }
+
+    .header {
+        font-size: clamp(1.15rem, 4.2vw, 1.65rem);
+    }
+
+    .main {
+        margin-bottom: 10vh;
+        min-height: 0;
+    }
+
+    .slider-container {
+        width: min(92vw, 22rem);
+        margin-top: 2vh;
+    }
+
+    .slider-labels {
+        width: 100%;
+        font-size: clamp(0.7rem, 2.5vw, 0.95rem);
+    }
+
+    .starContainer {
+        margin-top: 2vh;
+        padding: clamp(10vh, 18vw, 22vh) clamp(6vw, 8vw, 12vw);
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Keep O-class stars from overflowing narrow screens */
+    .main .star {
+        max-width: min(420px, 76vmin) !important;
+        max-height: min(420px, 76vmin) !important;
+    }
+
+    #endLife {
+        font-size: 1.05rem;
+        padding: 12px 24px;
+        max-width: min(92vw, 20rem);
+        margin-bottom: clamp(1.25rem, 2.5vh, 1.75rem);
+    }
+
+    .chartSection {
+        width: min(94vw, 40rem);
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0;
+        margin-bottom: clamp(2rem, 4vh, 3rem);
+    }
+
+    .chartModeToggle {
+        display: flex;
+    }
+
+    #starStats.starStats {
+        display: block;
+        width: 100%;
+        padding: 1.25rem 1.15rem 1.35rem;
+        gap: 0;
+    }
+
+    /* One chart at a time: avoids Chart.js drawing both at zero height / stacked broken state */
+    .chartPanel {
+        display: none;
+        min-height: 240px;
+        padding: 0.65rem 0.45rem;
+    }
+
+    .chartPanel.is-active {
+        display: block;
+    }
+
+    .chartPanel--lifespan,
+    .chartPanel--spectrum {
+        grid-area: auto;
+    }
+
+    article.starInfo {
+        padding: 1.5rem clamp(0.85rem, 4vw, 1.25rem);
+    }
+
+    .detailedDesc {
+        font-size: 1rem;
+        margin-top: 1.25rem;
+    }
+
+    .starInfoHologram {
+        width: min(100%, 40rem);
+        margin-top: 0.85rem;
+    }
+
+    .starInfoMore {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.8rem 0.85rem;
+    }
+
+    .hologramBeamLayer {
+        height: clamp(1.65rem, 4.5vw, 2.75rem);
+    }
+
+    .hologramProjector {
+        width: min(9.5rem, 62%);
+    }
+
+    .infoLine {
+        gap: 0.5rem 0.75rem;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+    .navbarCloud {
+        transform: translateX(-50%);
+    }
+
+    .navbarCloud--cirrus-b {
+        transform: translateX(-50%) rotate(-4deg);
+    }
+}
+
+@media (max-width: 425px) {
+    .header {
+        font-size: 1.05rem;
+        padding: 0.35rem 0.5rem;
+    }
+
+    .navbar ul li a {
+        font-size: 0.82rem;
+        padding: 0.4rem 0.55rem;
+    }
+
+    .main {
+        margin-bottom: 6vh;
+    }
+
+    .slider-container {
+        width: min(96vw, 100%);
+    }
+
+    .starContainer {
+        padding: clamp(8vh, 14vw, 16vh) 4vw;
+    }
+
+    .main .star {
+        max-width: min(420px, 60vmin) !important;
+        max-height: min(420px, 60vmin) !important;
+    }
+
+    #endLife {
+        width: 100%;
+        max-width: 18rem;
+        font-size: 0.95rem;
+        padding: 10px 18px;
+        box-sizing: border-box;
+        margin-bottom: clamp(1.1rem, 2.2vh, 1.5rem);
+    }
+
+    .chartSection {
+        width: min(96vw, 100%);
+        margin-bottom: clamp(1.75rem, 3.5vh, 2.5rem);
+    }
+
+    #starStats.starStats {
+        padding: 1rem 0.75rem 1.1rem;
+    }
+
+    .chartPanel {
+        min-height: 200px;
+        padding: 0.5rem 0.35rem;
+    }
+
+    .chartModeBtn {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.7rem;
+    }
+
+    article.starInfo {
+        padding: 1rem 0.65rem;
+    }
+
+    .detailedDesc {
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+
+    .starInfoHologram {
+        width: 100%;
+        margin-top: 0.65rem;
+    }
+
+    .starInfoMore {
+        width: 100%;
+        padding: 0.65rem 0.7rem;
+        border-radius: 10px;
+    }
+
+    .infoLine {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.2rem;
+        padding: 0.5rem 0.15rem;
+    }
+
+    .infoValue,
+    .infoValue--temp {
+        align-self: flex-end;
+        text-align: right;
+        width: 100%;
+    }
+
+    .habitabilityBox {
+        padding: 0.5rem 0.65rem;
+    }
+
+    .habitabilityBox .infoLine {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .habitabilityBox .infoValue {
+        width: auto;
+        align-self: auto;
+    }
+
+    .hologramBeamLayer {
+        height: clamp(1.4rem, 3.8vw, 2.25rem);
+    }
+
+    .hologramProjector {
+        width: min(8.5rem, 72%);
+        height: clamp(2rem, 4.5vw, 2.65rem);
+    }
+
+    .hologramBeamLine {
+        stroke-width: 1.05;
+    }
+
+    .hologramWire {
+        stroke-width: 0.65;
+    }
+
+    .footer {
+        font-size: 0.85rem;
+        padding: 0.85rem 0.5rem;
+    }
+}

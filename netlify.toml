@@ -1,0 +1,18 @@
+[build]
+  publish = "dist"
+  command = "python -m pip install -r requirements.txt && python scripts/build_static.py"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+# Star Classification is static HTML; Flask only runs at build time to render templates.
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/time-dilation"
+  to = "https://time-dilation.netlify.app/"
+  status = 302

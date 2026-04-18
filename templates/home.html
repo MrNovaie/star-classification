@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set meta_description = "Explore how stars are classified from cool M dwarfs to hot O-type stars: temperature, spectrum, mass, and lifespan on the main sequence." %}
+    {% set canonical_url = url_for('index', _external=True) %}
+    {% set og_title = "Home — Star Classification" %}
+    {% include 'includes/site_meta.html' %}
+    <!-- Title -->
+    <title>{{ og_title }}</title>
+    <!-- Icon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/house-32x32.png') }}">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='star-classes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Star Classification</h1>
+    </header>
+    <nav class="navbar">
+        <div class="navbar-cloudLayer" aria-hidden="true">
+            <span class="navbarCloud navbarCloud--cirrus navbarCloud--cirrus-a"></span>
+            <span class="navbarCloud navbarCloud--cirrus navbarCloud--cirrus-b"></span>
+            <span class="navbarCloud navbarCloud--altocumulus"></span>
+            <span class="navbarCloud navbarCloud--cumulus navbarCloud--cumulus-mid"></span>
+            <span class="navbarCloud navbarCloud--cumulus navbarCloud--cumulus-low"></span>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('index') }}" aria-current="page">Home</a></li>
+            <li><a href="{{ url_for('star_classes') }}">Star Classes</a></li>
+        </ul>
+    </nav>
+    <main class="main main--home">
+        <div class="home-intro">
+            <h2 class="home-intro__title">Welcome</h2>
+            <p class="home-intro__text">
+                Explore how stars are grouped by temperature and spectrum—from cool red M dwarfs to blazing blue O-type giants—and see how mass and lifespan compare across the main sequence.
+            </p>
+            <p class="home-intro__cta">
+                <a class="home-intro__link" href="{{ url_for('star_classes') }}">Open Star Classes</a>
+            </p>
+        </div>
+    </main>
+    <article class="starInfo home-aside">
+        <h2 class="home-aside__title">Quick facts</h2>
+        <ul class="home-aside__list">
+            <li>Spectral types run <strong>O B A F G K M</strong> (hot → cool).</li>
+            <li>Hotter stars are more massive and burn fuel faster.</li>
+            <li>The interactive page plots lifespan and a blackbody curve for each class.</li>
+        </ul>
+    </article>
+    <footer class="footer">
+        <p>&copy; 2026 Star Classification. All rights reserved.</p>
+    </footer>
+</body>
+</html>

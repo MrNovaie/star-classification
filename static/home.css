@@ -1,0 +1,79 @@
+/* Home landing page only — load after star-classes.css */
+
+.main--home {
+    margin-bottom: 0;
+    min-height: min(58vh, 30rem);
+    justify-content: center;
+    padding: 2rem 1.5rem 2.5rem;
+    box-sizing: border-box;
+}
+
+.home-intro {
+    position: relative;
+    z-index: 1;
+    max-width: 38rem;
+    text-align: center;
+    color: #f4f4f5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.home-intro__title {
+    margin: 0 0 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.65rem, 4vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.home-intro__text {
+    margin: 0 0 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: rgba(244, 244, 245, 0.92);
+}
+
+.home-intro__cta {
+    margin: 0;
+}
+
+.home-intro__link {
+    display: inline-block;
+    padding: 0.55rem 1.35rem;
+    border-radius: 999px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-intro__link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(111, 66, 193, 0.45);
+}
+
+.home-aside__title {
+    margin: 0 0 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.35rem;
+}
+
+.home-aside__list {
+    margin: 0;
+    padding-left: 1.2rem;
+    text-align: left;
+    line-height: 1.55;
+    font-size: 1rem;
+}
+
+.home-aside__list li {
+    margin-bottom: 0.65rem;
+}
+
+.home-aside__list li:last-child {
+    margin-bottom: 0;
+}
