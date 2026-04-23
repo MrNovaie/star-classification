@@ -11,6 +11,11 @@
     <title>{{ og_title }}</title>
     <!-- Icon -->
     <link rel="icon" href="{{ url_for('static', filename='img/star-32x32.png') }}">
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=DM+Serif+Text:ital@0;1&family=Fjalla+One&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sekuya&family=Share+Tech&family=Yanone+Kaffeesatz:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
     <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='star-classes.css') }}">
     <!-- Scripts -->
@@ -21,7 +26,8 @@
 </head>
 <body>
     <header class="header">
-        <h1>Star Classification</h1>
+        <h1 class="sekuya-bold">Star Classification</h1>
+        <a class="header-support-kofi audiowide-regular" href="https://ko-fi.com/novark" target="_blank" rel="noopener noreferrer" aria-label="Support me on Ko-fi" title="Support me on Ko-fi">☕</a>
     </header>
     <svg class="svg-filters" aria-hidden="true" width="0" height="0" focusable="false">
         <defs>

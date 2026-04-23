@@ -11,13 +11,19 @@
     <title>{{ og_title }}</title>
     <!-- Icon -->
     <link rel="icon" href="{{ url_for('static', filename='img/house-32x32.png') }}">
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=DM+Serif+Text:ital@0;1&family=Fjalla+One&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sekuya&family=Share+Tech&family=Yanone+Kaffeesatz:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
     <!-- Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='star-classes.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
     <header class="header">
-        <h1>Star Classification</h1>
+        <h1 class="sekuya-bold">Home</h1>
+        <a class="header-support-kofi audiowide-regular" href="https://ko-fi.com/novark" target="_blank" rel="noopener noreferrer" aria-label="Support me on Ko-fi" title="Support me on Ko-fi">☕</a>
     </header>
     <nav class="navbar">
         <div class="navbar-cloudLayer" aria-hidden="true">
@@ -30,29 +36,33 @@
         <ul>
             <li><a href="{{ url_for('index') }}" aria-current="page">Home</a></li>
             <li><a href="{{ url_for('star_classes') }}">Star Classes</a></li>
+            <li><a href="{{ url_for('time_dilation') }}">Time Dilation</a></li>
         </ul>
     </nav>
     <main class="main main--home">
         <div class="home-intro">
-            <h2 class="home-intro__title">Welcome</h2>
-            <p class="home-intro__text">
-                Explore how stars are grouped by temperature and spectrum—from cool red M dwarfs to blazing blue O-type giants—and see how mass and lifespan compare across the main sequence.
+            <h2 class="home-intro__title">My Projects</h2>
+            <p class="home-intro__text josefin-sans-400">
+                I am a software engineer and a hobbyist astronomer. I am passionate about building tools that help people learn about the universe.
             </p>
             <p class="home-intro__cta">
                 <a class="home-intro__link" href="{{ url_for('star_classes') }}">Open Star Classes</a>
+                <a class="home-intro__link" href="{{ url_for('time_dilation') }}">Open Time Dilation</a>
             </p>
         </div>
     </main>
     <article class="starInfo home-aside">
-        <h2 class="home-aside__title">Quick facts</h2>
-        <ul class="home-aside__list">
-            <li>Spectral types run <strong>O B A F G K M</strong> (hot → cool).</li>
-            <li>Hotter stars are more massive and burn fuel faster.</li>
-            <li>The interactive page plots lifespan and a blackbody curve for each class.</li>
+        <h2 class="home-aside__title audiowide-regular">Social Media</h2>
+        <ul class="home-aside__list yanone-kaffeesatz-400">
+            <li class="home-aside__list-item"><a href="https://www.instagram.com/novai.e/"><img src="{{ url_for('static', filename='img/SM-logos/instagram-32x32.png') }}" alt="Instagram" class="social-icon">Instagram</a></li>
+            <li class="home-aside__list-item"><a href="https://www.linkedin.com/in/tan-en-tong-a55a03172/"><img src="{{ url_for('static', filename='img/SM-logos/linkedin-32x32.png') }}" alt="LinkedIn" class="social-icon">LinkedIn</a></li>
+            <li class="home-aside__list-item"><a href="https://www.youtube.com/MrNovaie"><img src="{{ url_for('static', filename='img/SM-logos/youtube-32x32.png') }}" alt="YouTube" class="social-icon">YouTube</a></li>
+            <li class="home-aside__list-item"><a href="https://ko-fi.com/novark"><img src="{{ url_for('static', filename='img/SM-logos/kofi-32x32.png') }}" alt="Kofi" class="social-icon">Kofi</a></li>
+            <li class="home-aside__list-item"><a href="https://www.github.com/MrNovaie"><img src="{{ url_for('static', filename='img/SM-logos/github-32x32.png') }}" alt="GitHub" class="social-icon">GitHub</a></li>
         </ul>
     </article>
     <footer class="footer">
-        <p>&copy; 2026 Star Classification. All rights reserved.</p>
+        <p>&copy; 2026 Tan En Tong. All rights reserved.</p>
     </footer>
 </body>
 </html>

@@ -275,9 +275,9 @@ function buildStarArticleHtml(spec) {
     const src = imgSrc(spec.img);
     const widthPct = Math.min(77, Math.max(55, spec.imageWidthPct || 70));
     return (
-        `<div class='sky shootingstar'></div><h1> ${spec.title} </h1> ` +
+        `<div class='sky shootingstar'></div><h1 class="audiowide-regular"> ${spec.title} </h1> ` +
         `<img src="${src}" style="width: ${widthPct}%; max-height: 52vh; height:auto; object-fit: contain; border:${spec.border};" alt="${spec.title}">` +
-        `<p class='detailedDesc'>${spec.desc}</p>` +
+        `<p class='detailedDesc share-tech-regular'>${spec.desc}</p>` +
         `<div class="briefOverview"></div>` +
         // Holographic projector — keep in sync with templates/star-classes.html
         `<div class="starInfoHologram">` +

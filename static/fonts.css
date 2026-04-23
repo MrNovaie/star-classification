@@ -1,0 +1,34 @@
+.sekuya-regular {
+    font-family: "Sekuya", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+.sekuya-bold {
+    font-family: "Sekuya", system-ui;
+    font-weight: 700;
+    font-style: normal;
+}
+.audiowide-regular {
+font-family: "Audiowide", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+
+.share-tech-regular {
+    font-family: "Share Tech", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.yanone-kaffeesatz-400 {
+    font-family: "Yanone Kaffeesatz", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+.josefin-sans-400 {
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
