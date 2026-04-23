@@ -4,7 +4,7 @@ Interactive explainer for **spectral types O B A F G K M**: slide through main-s
 
 ## UI highlights
 
-- Home page with project links, social links/icons, and a styled side panel.
+- [Home page](https://star-classification.netlify.app/) with project links, social links/icons, and a styled side panel.
 - Shared animated header/nav theme across pages.
 - Top-right Ko-fi support shortcut (coffee emoji badge) in the header.
 - Added star class pictures/artwork and social/logo icons to enrich the visuals.
